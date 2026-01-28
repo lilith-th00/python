@@ -303,4 +303,15 @@ print()
 print("=== Combined Analysis ===")
 print(f"Total players: {len(U_players)}")
 print(f"Total unique achievements: {len(mode)}")
-print(f"Average score: {sum(scores) / len(scores)}")
+print(f"Average score: {sum(scores.values() / len(scores)}")
+top_player = ""
+top_score = 0
+for player in data["players"]:
+    score = data["players"][player]["total_score"]
+    if score > top_score:
+    top_score = score
+    top_player = player
+ach = data["players"][top_player]["achievements_count"]  
+print(f"Top performer: {top_player} ({top_score} points, {ach} achievements)")
+    
+    
