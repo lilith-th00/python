@@ -1,0 +1,118 @@
+from abc import ABC, abstractmethod
+
+class  DataProcessor(ABC):
+
+    @abstractmethod
+    def process(self, data: any) -> str:
+        pass
+
+    @abstractmethod
+    def validate(self, data: any) -> bool:
+        pass
+
+
+class  NumericProcessor(DataProcessor):
+
+    def validate(self, data):
+      def validate(self, data):
+        try:
+            total = 0
+            for x in data:
+                total += x
+                t = total / len(data)
+                return True
+        except TypeError:
+            return False
+
+    def process(self, data):
+        total = sum(data)
+        avr = total / len(data)
+        return f" Processed {len(data)} numeric values, sum={total}, avg={avr:.1f}"
+    
+    def format_output(self, result: str) -> str:
+        return f"Output:{result}"
+    
+class TextProcessor(DataProcessor):
+    def validate(self, data):
+        try:
+            i = len(data)
+            return True
+        except TypeError:
+            return False
+    def process(self, data):
+        w = 0
+        c = len(data)
+        for x in range(c):
+            if ((x == 0 and data[x] != " ") 
+            or (data[x] != " " and data[x - 1] == " ")):
+                w += 1
+        return f" Processed text: {c} characters, {w} words"
+    
+    def format_output(self, result: str) -> str:
+        return f"Output:{result}"
+
+
+class LogProcessor(DataProcessor):
+    def validate(self, data):
+        try:
+            i = len(data)
+            if "INFO" or "ERROR" in data:
+                return True
+            return False
+        except TypeError:
+            return False
+
+    def process(self, data):
+        if "INFO" in data:
+            level = "INFO"
+        elif "ERROR" in data:
+            level = "ALERT"
+        else:
+            level = "LOG"
+        message = data.split(":", 1)[1].strip()
+        return f" [{level}] {level} level detected: {message}"
+
+    def format_output(self, result: str) -> str:
+        return f"Output:{result}"
+
+def main():
+    print("=== CODE NEXUS - DATA PROCESSOR FOUNDATION ===\n")
+    print("Initializing Numeric Processor...")
+    my_list = [1, 2, 3, 4, 5]
+    print(f"Processing data: {my_list}")
+    num = NumericProcessor()
+    if num.validate(my_list):
+        print("Validation: Numeric data verified")
+        result = num.process(my_list)
+        print(num.format_output(result))
+    print()
+    print("Initializing Text Processor...")
+    s = "Hello Nexus World"
+    print(f"Processing data: {s}")
+    text = TextProcessor()
+    if text.validate(s):
+        print("Validation: Text data verified")
+        result = text.process(s)
+        print(text.format_output(result))
+    print()
+    print("Initializing Log Processor...")
+    l = "ERROR: Connection timeout"
+    log = LogProcessor()
+    print(f"Processing data: {l}")
+    if log.validate(l):
+        print("Validation: Log entry verified")
+        result = log.process(l)
+        print(log.format_output(result))
+    print()
+    print("=== Polymorphic Processing Demo ===")
+    print("Processing multiple data types through same interface...")
+    print("Result 1:", num.process([1, 2, 3]))
+    print("Result 2:", text.process("Hello World"))
+    print("Result 3:", log.process("INFO: System ready"))
+    print()
+    print("Foundation systems online. Nexus ready for advanced streams.")
+
+main()
+
+
+    
