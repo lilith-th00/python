@@ -1,0 +1,40 @@
+from abc import ABC, abstractmethod
+
+class DataStream(ABC):
+
+    @abstractmethod
+    def process_batch(self, data_batch: list[any]) -> str:
+        pass
+
+class SensorStream(DataStream):
+
+    def __init__(self, id):
+        self.id = id
+        self.type = "Environmental Data"
+    
+    def process_batch(self, data_batch):
+        pass
+        
+
+class TransactionStream(DataStream):
+    def __init__(self, id):
+        self.id = id
+    pass
+class EventStream(DataStream):
+    def __init__(self, id):
+        self.id = id
+    pass
+
+def main():
+    print("=== CODE NEXUS - POLYMORPHIC STREAM SYSTEM ==\n")
+    
+    print("Initializing Sensor Stream..")
+    sensor = SensorStream("SENSOR_00")
+    print(f"Stream ID: {sensor.id}, Type: {sensor.type}")
+    batch = [
+        {"type": "temp", "data": 22.5},
+        {"type": "humidity", "data": 65},
+        {"type": "pressure", "data": 1013}
+    ]
+    print("Processing sensor batch:", batch)
+main()
